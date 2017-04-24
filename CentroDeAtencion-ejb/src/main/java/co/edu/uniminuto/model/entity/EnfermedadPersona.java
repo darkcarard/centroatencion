@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package co.edu.uniminuto.model.entities;
+package co.edu.uniminuto.model.entity;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
@@ -17,8 +17,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -26,58 +24,47 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author cardila
  */
 @Entity
-@Table(name = "usuario")
+@Table(name = "enfermedad_persona")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u")
-    , @NamedQuery(name = "Usuario.findById", query = "SELECT u FROM Usuario u WHERE u.id = :id")
-    , @NamedQuery(name = "Usuario.findByClave", query = "SELECT u FROM Usuario u WHERE u.clave = :clave")})
-public class Usuario implements Serializable {
+    @NamedQuery(name = "EnfermedadPersona.findAll", query = "SELECT e FROM EnfermedadPersona e")
+    , @NamedQuery(name = "EnfermedadPersona.findById", query = "SELECT e FROM EnfermedadPersona e WHERE e.id = :id")})
+public class EnfermedadPersona implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    private Integer id;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
-    @Column(name = "clave")
-    private String clave;
+    private Long id;
+    @JoinColumn(name = "enfermedad", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Enfermedad enfermedad;
     @JoinColumn(name = "persona", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Persona persona;
-    @JoinColumn(name = "rol", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Rol rol;
 
-    public Usuario() {
+    public EnfermedadPersona() {
     }
 
-    public Usuario(Integer id) {
+    public EnfermedadPersona(Long id) {
         this.id = id;
     }
 
-    public Usuario(Integer id, String clave) {
-        this.id = id;
-        this.clave = clave;
-    }
-
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getClave() {
-        return clave;
+    public Enfermedad getEnfermedad() {
+        return enfermedad;
     }
 
-    public void setClave(String clave) {
-        this.clave = clave;
+    public void setEnfermedad(Enfermedad enfermedad) {
+        this.enfermedad = enfermedad;
     }
 
     public Persona getPersona() {
@@ -86,14 +73,6 @@ public class Usuario implements Serializable {
 
     public void setPersona(Persona persona) {
         this.persona = persona;
-    }
-
-    public Rol getRol() {
-        return rol;
-    }
-
-    public void setRol(Rol rol) {
-        this.rol = rol;
     }
 
     @Override
@@ -106,10 +85,10 @@ public class Usuario implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Usuario)) {
+        if (!(object instanceof EnfermedadPersona)) {
             return false;
         }
-        Usuario other = (Usuario) object;
+        EnfermedadPersona other = (EnfermedadPersona) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -118,7 +97,7 @@ public class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return "co.edu.uniminuto.model.entities.Usuario[ id=" + id + " ]";
+        return "co.edu.uniminuto.model.entities.EnfermedadPersona[ id=" + id + " ]";
     }
     
 }

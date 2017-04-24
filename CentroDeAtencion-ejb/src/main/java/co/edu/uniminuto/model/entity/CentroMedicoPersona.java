@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package co.edu.uniminuto.model.entities;
+package co.edu.uniminuto.model.entity;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
@@ -24,12 +24,12 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author cardila
  */
 @Entity
-@Table(name = "enfermedad_persona")
+@Table(name = "centro_medico_persona")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "EnfermedadPersona.findAll", query = "SELECT e FROM EnfermedadPersona e")
-    , @NamedQuery(name = "EnfermedadPersona.findById", query = "SELECT e FROM EnfermedadPersona e WHERE e.id = :id")})
-public class EnfermedadPersona implements Serializable {
+    @NamedQuery(name = "CentroMedicoPersona.findAll", query = "SELECT c FROM CentroMedicoPersona c")
+    , @NamedQuery(name = "CentroMedicoPersona.findById", query = "SELECT c FROM CentroMedicoPersona c WHERE c.id = :id")})
+public class CentroMedicoPersona implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -37,17 +37,17 @@ public class EnfermedadPersona implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;
-    @JoinColumn(name = "enfermedad", referencedColumnName = "id")
+    @JoinColumn(name = "centro_medico", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Enfermedad enfermedad;
+    private CentroMedico centroMedico;
     @JoinColumn(name = "persona", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Persona persona;
 
-    public EnfermedadPersona() {
+    public CentroMedicoPersona() {
     }
 
-    public EnfermedadPersona(Long id) {
+    public CentroMedicoPersona(Long id) {
         this.id = id;
     }
 
@@ -59,12 +59,12 @@ public class EnfermedadPersona implements Serializable {
         this.id = id;
     }
 
-    public Enfermedad getEnfermedad() {
-        return enfermedad;
+    public CentroMedico getCentroMedico() {
+        return centroMedico;
     }
 
-    public void setEnfermedad(Enfermedad enfermedad) {
-        this.enfermedad = enfermedad;
+    public void setCentroMedico(CentroMedico centroMedico) {
+        this.centroMedico = centroMedico;
     }
 
     public Persona getPersona() {
@@ -85,10 +85,10 @@ public class EnfermedadPersona implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof EnfermedadPersona)) {
+        if (!(object instanceof CentroMedicoPersona)) {
             return false;
         }
-        EnfermedadPersona other = (EnfermedadPersona) object;
+        CentroMedicoPersona other = (CentroMedicoPersona) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -97,7 +97,7 @@ public class EnfermedadPersona implements Serializable {
 
     @Override
     public String toString() {
-        return "co.edu.uniminuto.model.entities.EnfermedadPersona[ id=" + id + " ]";
+        return "co.edu.uniminuto.model.entities.CentroMedicoPersona[ id=" + id + " ]";
     }
     
 }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package co.edu.uniminuto.model.entities;
+package co.edu.uniminuto.model.entity;
 
 import java.io.Serializable;
 import java.util.List;
@@ -28,14 +28,14 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author cardila
  */
 @Entity
-@Table(name = "tipo_identificacion")
+@Table(name = "enfermedad")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TipoIdentificacion.findAll", query = "SELECT t FROM TipoIdentificacion t")
-    , @NamedQuery(name = "TipoIdentificacion.findById", query = "SELECT t FROM TipoIdentificacion t WHERE t.id = :id")
-    , @NamedQuery(name = "TipoIdentificacion.findByNombre", query = "SELECT t FROM TipoIdentificacion t WHERE t.nombre = :nombre")
-    , @NamedQuery(name = "TipoIdentificacion.findByDescripcion", query = "SELECT t FROM TipoIdentificacion t WHERE t.descripcion = :descripcion")})
-public class TipoIdentificacion implements Serializable {
+    @NamedQuery(name = "Enfermedad.findAll", query = "SELECT e FROM Enfermedad e")
+    , @NamedQuery(name = "Enfermedad.findById", query = "SELECT e FROM Enfermedad e WHERE e.id = :id")
+    , @NamedQuery(name = "Enfermedad.findByNombre", query = "SELECT e FROM Enfermedad e WHERE e.nombre = :nombre")
+    , @NamedQuery(name = "Enfermedad.findByDescripcion", query = "SELECT e FROM Enfermedad e WHERE e.descripcion = :descripcion")})
+public class Enfermedad implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -45,23 +45,23 @@ public class TipoIdentificacion implements Serializable {
     private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
-    @Column(name = "Nombre")
+    @Size(min = 1, max = 100)
+    @Column(name = "nombre")
     private String nombre;
-    @Size(max = 100)
-    @Column(name = "Descripcion")
+    @Size(max = 500)
+    @Column(name = "descripcion")
     private String descripcion;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipoIdentificacion")
-    private List<Persona> personaList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "enfermedad")
+    private List<EnfermedadPersona> enfermedadPersonaList;
 
-    public TipoIdentificacion() {
+    public Enfermedad() {
     }
 
-    public TipoIdentificacion(Integer id) {
+    public Enfermedad(Integer id) {
         this.id = id;
     }
 
-    public TipoIdentificacion(Integer id, String nombre) {
+    public Enfermedad(Integer id, String nombre) {
         this.id = id;
         this.nombre = nombre;
     }
@@ -91,12 +91,12 @@ public class TipoIdentificacion implements Serializable {
     }
 
     @XmlTransient
-    public List<Persona> getPersonaList() {
-        return personaList;
+    public List<EnfermedadPersona> getEnfermedadPersonaList() {
+        return enfermedadPersonaList;
     }
 
-    public void setPersonaList(List<Persona> personaList) {
-        this.personaList = personaList;
+    public void setEnfermedadPersonaList(List<EnfermedadPersona> enfermedadPersonaList) {
+        this.enfermedadPersonaList = enfermedadPersonaList;
     }
 
     @Override
@@ -109,10 +109,10 @@ public class TipoIdentificacion implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof TipoIdentificacion)) {
+        if (!(object instanceof Enfermedad)) {
             return false;
         }
-        TipoIdentificacion other = (TipoIdentificacion) object;
+        Enfermedad other = (Enfermedad) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -121,7 +121,7 @@ public class TipoIdentificacion implements Serializable {
 
     @Override
     public String toString() {
-        return "co.edu.uniminuto.model.entities.TipoIdentificacion[ id=" + id + " ]";
+        return "co.edu.uniminuto.model.entities.Enfermedad[ id=" + id + " ]";
     }
     
 }

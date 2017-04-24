@@ -3,85 +3,76 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package co.edu.uniminuto.model.entities;
+package co.edu.uniminuto.model.entity;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author cardila
  */
 @Entity
-@Table(name = "rol")
+@Table(name = "diagnostico")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Rol.findAll", query = "SELECT r FROM Rol r")
-    , @NamedQuery(name = "Rol.findById", query = "SELECT r FROM Rol r WHERE r.id = :id")
-    , @NamedQuery(name = "Rol.findByNombre", query = "SELECT r FROM Rol r WHERE r.nombre = :nombre")
-    , @NamedQuery(name = "Rol.findByDescripcion", query = "SELECT r FROM Rol r WHERE r.descripcion = :descripcion")})
-public class Rol implements Serializable {
+    @NamedQuery(name = "Diagnostico.findAll", query = "SELECT d FROM Diagnostico d")
+    , @NamedQuery(name = "Diagnostico.findById", query = "SELECT d FROM Diagnostico d WHERE d.id = :id")
+    , @NamedQuery(name = "Diagnostico.findByDescripcion", query = "SELECT d FROM Diagnostico d WHERE d.descripcion = :descripcion")})
+public class Diagnostico implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    private Integer id;
+    private Long id;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 25)
-    @Column(name = "nombre")
-    private String nombre;
-    @Size(max = 100)
+    @Size(min = 1, max = 500)
     @Column(name = "descripcion")
     private String descripcion;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "rol")
-    private List<MenuRol> menuRolList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "rol")
-    private List<Usuario> usuarioList;
+    @JoinColumn(name = "medico", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Persona medico;
+    @JoinColumn(name = "paciente", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Persona paciente;
+    @JoinColumn(name = "signos", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Signos signos;
 
-    public Rol() {
+    public Diagnostico() {
     }
 
-    public Rol(Integer id) {
+    public Diagnostico(Long id) {
         this.id = id;
     }
 
-    public Rol(Integer id, String nombre) {
+    public Diagnostico(Long id, String descripcion) {
         this.id = id;
-        this.nombre = nombre;
+        this.descripcion = descripcion;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
     }
 
     public String getDescripcion() {
@@ -92,22 +83,28 @@ public class Rol implements Serializable {
         this.descripcion = descripcion;
     }
 
-    @XmlTransient
-    public List<MenuRol> getMenuRolList() {
-        return menuRolList;
+    public Persona getMedico() {
+        return medico;
     }
 
-    public void setMenuRolList(List<MenuRol> menuRolList) {
-        this.menuRolList = menuRolList;
+    public void setMedico(Persona medico) {
+        this.medico = medico;
     }
 
-    @XmlTransient
-    public List<Usuario> getUsuarioList() {
-        return usuarioList;
+    public Persona getPaciente() {
+        return paciente;
     }
 
-    public void setUsuarioList(List<Usuario> usuarioList) {
-        this.usuarioList = usuarioList;
+    public void setPaciente(Persona paciente) {
+        this.paciente = paciente;
+    }
+
+    public Signos getSignos() {
+        return signos;
+    }
+
+    public void setSignos(Signos signos) {
+        this.signos = signos;
     }
 
     @Override
@@ -120,10 +117,10 @@ public class Rol implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Rol)) {
+        if (!(object instanceof Diagnostico)) {
             return false;
         }
-        Rol other = (Rol) object;
+        Diagnostico other = (Diagnostico) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -132,7 +129,7 @@ public class Rol implements Serializable {
 
     @Override
     public String toString() {
-        return "co.edu.uniminuto.model.entities.Rol[ id=" + id + " ]";
+        return "co.edu.uniminuto.model.entities.Diagnostico[ id=" + id + " ]";
     }
     
 }

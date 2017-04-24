@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package co.edu.uniminuto.model.entities;
+package co.edu.uniminuto.model.entity;
 
 import java.io.Serializable;
 import java.util.List;
@@ -28,14 +28,14 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author cardila
  */
 @Entity
-@Table(name = "enfermedad")
+@Table(name = "rol")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Enfermedad.findAll", query = "SELECT e FROM Enfermedad e")
-    , @NamedQuery(name = "Enfermedad.findById", query = "SELECT e FROM Enfermedad e WHERE e.id = :id")
-    , @NamedQuery(name = "Enfermedad.findByNombre", query = "SELECT e FROM Enfermedad e WHERE e.nombre = :nombre")
-    , @NamedQuery(name = "Enfermedad.findByDescripcion", query = "SELECT e FROM Enfermedad e WHERE e.descripcion = :descripcion")})
-public class Enfermedad implements Serializable {
+    @NamedQuery(name = "Rol.findAll", query = "SELECT r FROM Rol r")
+    , @NamedQuery(name = "Rol.findById", query = "SELECT r FROM Rol r WHERE r.id = :id")
+    , @NamedQuery(name = "Rol.findByNombre", query = "SELECT r FROM Rol r WHERE r.nombre = :nombre")
+    , @NamedQuery(name = "Rol.findByDescripcion", query = "SELECT r FROM Rol r WHERE r.descripcion = :descripcion")})
+public class Rol implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -45,23 +45,25 @@ public class Enfermedad implements Serializable {
     private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
+    @Size(min = 1, max = 25)
     @Column(name = "nombre")
     private String nombre;
-    @Size(max = 500)
+    @Size(max = 100)
     @Column(name = "descripcion")
     private String descripcion;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "enfermedad")
-    private List<EnfermedadPersona> enfermedadPersonaList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "rol")
+    private List<MenuRol> menuRolList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "rol")
+    private List<Usuario> usuarioList;
 
-    public Enfermedad() {
+    public Rol() {
     }
 
-    public Enfermedad(Integer id) {
+    public Rol(Integer id) {
         this.id = id;
     }
 
-    public Enfermedad(Integer id, String nombre) {
+    public Rol(Integer id, String nombre) {
         this.id = id;
         this.nombre = nombre;
     }
@@ -91,12 +93,21 @@ public class Enfermedad implements Serializable {
     }
 
     @XmlTransient
-    public List<EnfermedadPersona> getEnfermedadPersonaList() {
-        return enfermedadPersonaList;
+    public List<MenuRol> getMenuRolList() {
+        return menuRolList;
     }
 
-    public void setEnfermedadPersonaList(List<EnfermedadPersona> enfermedadPersonaList) {
-        this.enfermedadPersonaList = enfermedadPersonaList;
+    public void setMenuRolList(List<MenuRol> menuRolList) {
+        this.menuRolList = menuRolList;
+    }
+
+    @XmlTransient
+    public List<Usuario> getUsuarioList() {
+        return usuarioList;
+    }
+
+    public void setUsuarioList(List<Usuario> usuarioList) {
+        this.usuarioList = usuarioList;
     }
 
     @Override
@@ -109,10 +120,10 @@ public class Enfermedad implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Enfermedad)) {
+        if (!(object instanceof Rol)) {
             return false;
         }
-        Enfermedad other = (Enfermedad) object;
+        Rol other = (Rol) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -121,7 +132,7 @@ public class Enfermedad implements Serializable {
 
     @Override
     public String toString() {
-        return "co.edu.uniminuto.model.entities.Enfermedad[ id=" + id + " ]";
+        return "co.edu.uniminuto.model.entities.Rol[ id=" + id + " ]";
     }
     
 }

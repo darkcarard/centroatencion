@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package co.edu.uniminuto.model.entities;
+package co.edu.uniminuto.model.entity;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
@@ -26,85 +26,74 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author cardila
  */
 @Entity
-@Table(name = "diagnostico")
+@Table(name = "usuario")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Diagnostico.findAll", query = "SELECT d FROM Diagnostico d")
-    , @NamedQuery(name = "Diagnostico.findById", query = "SELECT d FROM Diagnostico d WHERE d.id = :id")
-    , @NamedQuery(name = "Diagnostico.findByDescripcion", query = "SELECT d FROM Diagnostico d WHERE d.descripcion = :descripcion")})
-public class Diagnostico implements Serializable {
+    @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u")
+    , @NamedQuery(name = "Usuario.findById", query = "SELECT u FROM Usuario u WHERE u.id = :id")
+    , @NamedQuery(name = "Usuario.findByClave", query = "SELECT u FROM Usuario u WHERE u.clave = :clave")})
+public class Usuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    private Long id;
+    private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 500)
-    @Column(name = "descripcion")
-    private String descripcion;
-    @JoinColumn(name = "medico", referencedColumnName = "id")
+    @Size(min = 1, max = 100)
+    @Column(name = "clave")
+    private String clave;
+    @JoinColumn(name = "persona", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Persona medico;
-    @JoinColumn(name = "paciente", referencedColumnName = "id")
+    private Persona persona;
+    @JoinColumn(name = "rol", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Persona paciente;
-    @JoinColumn(name = "signos", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Signos signos;
+    private Rol rol;
 
-    public Diagnostico() {
+    public Usuario() {
     }
 
-    public Diagnostico(Long id) {
+    public Usuario(Integer id) {
         this.id = id;
     }
 
-    public Diagnostico(Long id, String descripcion) {
+    public Usuario(Integer id, String clave) {
         this.id = id;
-        this.descripcion = descripcion;
+        this.clave = clave;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public String getClave() {
+        return clave;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public void setClave(String clave) {
+        this.clave = clave;
     }
 
-    public Persona getMedico() {
-        return medico;
+    public Persona getPersona() {
+        return persona;
     }
 
-    public void setMedico(Persona medico) {
-        this.medico = medico;
+    public void setPersona(Persona persona) {
+        this.persona = persona;
     }
 
-    public Persona getPaciente() {
-        return paciente;
+    public Rol getRol() {
+        return rol;
     }
 
-    public void setPaciente(Persona paciente) {
-        this.paciente = paciente;
-    }
-
-    public Signos getSignos() {
-        return signos;
-    }
-
-    public void setSignos(Signos signos) {
-        this.signos = signos;
+    public void setRol(Rol rol) {
+        this.rol = rol;
     }
 
     @Override
@@ -117,10 +106,10 @@ public class Diagnostico implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Diagnostico)) {
+        if (!(object instanceof Usuario)) {
             return false;
         }
-        Diagnostico other = (Diagnostico) object;
+        Usuario other = (Usuario) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -129,7 +118,7 @@ public class Diagnostico implements Serializable {
 
     @Override
     public String toString() {
-        return "co.edu.uniminuto.model.entities.Diagnostico[ id=" + id + " ]";
+        return "co.edu.uniminuto.model.entities.Usuario[ id=" + id + " ]";
     }
     
 }

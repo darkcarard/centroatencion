@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package co.edu.uniminuto.model.entities;
+package co.edu.uniminuto.model.entity;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
@@ -24,12 +24,12 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author cardila
  */
 @Entity
-@Table(name = "menu_rol")
+@Table(name = "medicamento_persona")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "MenuRol.findAll", query = "SELECT m FROM MenuRol m")
-    , @NamedQuery(name = "MenuRol.findById", query = "SELECT m FROM MenuRol m WHERE m.id = :id")})
-public class MenuRol implements Serializable {
+    @NamedQuery(name = "MedicamentoPersona.findAll", query = "SELECT m FROM MedicamentoPersona m")
+    , @NamedQuery(name = "MedicamentoPersona.findById", query = "SELECT m FROM MedicamentoPersona m WHERE m.id = :id")})
+public class MedicamentoPersona implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -37,17 +37,17 @@ public class MenuRol implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @JoinColumn(name = "menu", referencedColumnName = "id")
+    @JoinColumn(name = "medicamento", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Menu menu;
-    @JoinColumn(name = "rol", referencedColumnName = "id")
+    private Medicamento medicamento;
+    @JoinColumn(name = "persona", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Rol rol;
+    private Persona persona;
 
-    public MenuRol() {
+    public MedicamentoPersona() {
     }
 
-    public MenuRol(Integer id) {
+    public MedicamentoPersona(Integer id) {
         this.id = id;
     }
 
@@ -59,20 +59,20 @@ public class MenuRol implements Serializable {
         this.id = id;
     }
 
-    public Menu getMenu() {
-        return menu;
+    public Medicamento getMedicamento() {
+        return medicamento;
     }
 
-    public void setMenu(Menu menu) {
-        this.menu = menu;
+    public void setMedicamento(Medicamento medicamento) {
+        this.medicamento = medicamento;
     }
 
-    public Rol getRol() {
-        return rol;
+    public Persona getPersona() {
+        return persona;
     }
 
-    public void setRol(Rol rol) {
-        this.rol = rol;
+    public void setPersona(Persona persona) {
+        this.persona = persona;
     }
 
     @Override
@@ -85,10 +85,10 @@ public class MenuRol implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof MenuRol)) {
+        if (!(object instanceof MedicamentoPersona)) {
             return false;
         }
-        MenuRol other = (MenuRol) object;
+        MedicamentoPersona other = (MedicamentoPersona) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -97,7 +97,7 @@ public class MenuRol implements Serializable {
 
     @Override
     public String toString() {
-        return "co.edu.uniminuto.model.entities.MenuRol[ id=" + id + " ]";
+        return "co.edu.uniminuto.model.entities.MedicamentoPersona[ id=" + id + " ]";
     }
     
 }

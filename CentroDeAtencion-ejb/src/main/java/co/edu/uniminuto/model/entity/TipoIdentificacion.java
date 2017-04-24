@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package co.edu.uniminuto.model.entities;
+package co.edu.uniminuto.model.entity;
 
 import java.io.Serializable;
 import java.util.List;
@@ -28,14 +28,14 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author cardila
  */
 @Entity
-@Table(name = "tipo_persona")
+@Table(name = "tipo_identificacion")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TipoPersona.findAll", query = "SELECT t FROM TipoPersona t")
-    , @NamedQuery(name = "TipoPersona.findById", query = "SELECT t FROM TipoPersona t WHERE t.id = :id")
-    , @NamedQuery(name = "TipoPersona.findByNombre", query = "SELECT t FROM TipoPersona t WHERE t.nombre = :nombre")
-    , @NamedQuery(name = "TipoPersona.findByDescripcion", query = "SELECT t FROM TipoPersona t WHERE t.descripcion = :descripcion")})
-public class TipoPersona implements Serializable {
+    @NamedQuery(name = "TipoIdentificacion.findAll", query = "SELECT t FROM TipoIdentificacion t")
+    , @NamedQuery(name = "TipoIdentificacion.findById", query = "SELECT t FROM TipoIdentificacion t WHERE t.id = :id")
+    , @NamedQuery(name = "TipoIdentificacion.findByNombre", query = "SELECT t FROM TipoIdentificacion t WHERE t.nombre = :nombre")
+    , @NamedQuery(name = "TipoIdentificacion.findByDescripcion", query = "SELECT t FROM TipoIdentificacion t WHERE t.descripcion = :descripcion")})
+public class TipoIdentificacion implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -51,17 +51,17 @@ public class TipoPersona implements Serializable {
     @Size(max = 100)
     @Column(name = "Descripcion")
     private String descripcion;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipoPersona")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipoIdentificacion")
     private List<Persona> personaList;
 
-    public TipoPersona() {
+    public TipoIdentificacion() {
     }
 
-    public TipoPersona(Integer id) {
+    public TipoIdentificacion(Integer id) {
         this.id = id;
     }
 
-    public TipoPersona(Integer id, String nombre) {
+    public TipoIdentificacion(Integer id, String nombre) {
         this.id = id;
         this.nombre = nombre;
     }
@@ -109,10 +109,10 @@ public class TipoPersona implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof TipoPersona)) {
+        if (!(object instanceof TipoIdentificacion)) {
             return false;
         }
-        TipoPersona other = (TipoPersona) object;
+        TipoIdentificacion other = (TipoIdentificacion) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -121,7 +121,7 @@ public class TipoPersona implements Serializable {
 
     @Override
     public String toString() {
-        return "co.edu.uniminuto.model.entities.TipoPersona[ id=" + id + " ]";
+        return "co.edu.uniminuto.model.entities.TipoIdentificacion[ id=" + id + " ]";
     }
     
 }

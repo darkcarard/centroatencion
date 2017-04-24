@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package co.edu.uniminuto.model.entities;
+package co.edu.uniminuto.model.entity;
 
 import java.io.Serializable;
 import java.util.List;
@@ -28,14 +28,15 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author cardila
  */
 @Entity
-@Table(name = "medicamento")
+@Table(name = "centro_medico")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Medicamento.findAll", query = "SELECT m FROM Medicamento m")
-    , @NamedQuery(name = "Medicamento.findById", query = "SELECT m FROM Medicamento m WHERE m.id = :id")
-    , @NamedQuery(name = "Medicamento.findByNombre", query = "SELECT m FROM Medicamento m WHERE m.nombre = :nombre")
-    , @NamedQuery(name = "Medicamento.findByDescripcion", query = "SELECT m FROM Medicamento m WHERE m.descripcion = :descripcion")})
-public class Medicamento implements Serializable {
+    @NamedQuery(name = "CentroMedico.findAll", query = "SELECT c FROM CentroMedico c")
+    , @NamedQuery(name = "CentroMedico.findById", query = "SELECT c FROM CentroMedico c WHERE c.id = :id")
+    , @NamedQuery(name = "CentroMedico.findByNombre", query = "SELECT c FROM CentroMedico c WHERE c.nombre = :nombre")
+    , @NamedQuery(name = "CentroMedico.findByDescripcion", query = "SELECT c FROM CentroMedico c WHERE c.descripcion = :descripcion")
+    , @NamedQuery(name = "CentroMedico.findByDirecci\u00f3n", query = "SELECT c FROM CentroMedico c WHERE c.direcci\u00f3n = :direcci\u00f3n")})
+public class CentroMedico implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -51,19 +52,25 @@ public class Medicamento implements Serializable {
     @Size(max = 500)
     @Column(name = "descripcion")
     private String descripcion;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "medicamento")
-    private List<MedicamentoPersona> medicamentoPersonaList;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 120)
+    @Column(name = "direcci\u00f3n")
+    private String dirección;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "centroMedico")
+    private List<CentroMedicoPersona> centroMedicoPersonaList;
 
-    public Medicamento() {
+    public CentroMedico() {
     }
 
-    public Medicamento(Integer id) {
+    public CentroMedico(Integer id) {
         this.id = id;
     }
 
-    public Medicamento(Integer id, String nombre) {
+    public CentroMedico(Integer id, String nombre, String dirección) {
         this.id = id;
         this.nombre = nombre;
+        this.dirección = dirección;
     }
 
     public Integer getId() {
@@ -90,13 +97,21 @@ public class Medicamento implements Serializable {
         this.descripcion = descripcion;
     }
 
-    @XmlTransient
-    public List<MedicamentoPersona> getMedicamentoPersonaList() {
-        return medicamentoPersonaList;
+    public String getDirección() {
+        return dirección;
     }
 
-    public void setMedicamentoPersonaList(List<MedicamentoPersona> medicamentoPersonaList) {
-        this.medicamentoPersonaList = medicamentoPersonaList;
+    public void setDirección(String dirección) {
+        this.dirección = dirección;
+    }
+
+    @XmlTransient
+    public List<CentroMedicoPersona> getCentroMedicoPersonaList() {
+        return centroMedicoPersonaList;
+    }
+
+    public void setCentroMedicoPersonaList(List<CentroMedicoPersona> centroMedicoPersonaList) {
+        this.centroMedicoPersonaList = centroMedicoPersonaList;
     }
 
     @Override
@@ -109,10 +124,10 @@ public class Medicamento implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Medicamento)) {
+        if (!(object instanceof CentroMedico)) {
             return false;
         }
-        Medicamento other = (Medicamento) object;
+        CentroMedico other = (CentroMedico) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -121,7 +136,7 @@ public class Medicamento implements Serializable {
 
     @Override
     public String toString() {
-        return "co.edu.uniminuto.model.entities.Medicamento[ id=" + id + " ]";
+        return "co.edu.uniminuto.model.entities.CentroMedico[ id=" + id + " ]";
     }
     
 }

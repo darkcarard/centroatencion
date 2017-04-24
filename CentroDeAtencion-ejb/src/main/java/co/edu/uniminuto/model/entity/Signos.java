@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package co.edu.uniminuto.model.entities;
+package co.edu.uniminuto.model.entity;
 
 import java.io.Serializable;
 import java.util.List;
@@ -28,22 +28,21 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author cardila
  */
 @Entity
-@Table(name = "centro_medico")
+@Table(name = "signos")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "CentroMedico.findAll", query = "SELECT c FROM CentroMedico c")
-    , @NamedQuery(name = "CentroMedico.findById", query = "SELECT c FROM CentroMedico c WHERE c.id = :id")
-    , @NamedQuery(name = "CentroMedico.findByNombre", query = "SELECT c FROM CentroMedico c WHERE c.nombre = :nombre")
-    , @NamedQuery(name = "CentroMedico.findByDescripcion", query = "SELECT c FROM CentroMedico c WHERE c.descripcion = :descripcion")
-    , @NamedQuery(name = "CentroMedico.findByDirecci\u00f3n", query = "SELECT c FROM CentroMedico c WHERE c.direcci\u00f3n = :direcci\u00f3n")})
-public class CentroMedico implements Serializable {
+    @NamedQuery(name = "Signos.findAll", query = "SELECT s FROM Signos s")
+    , @NamedQuery(name = "Signos.findById", query = "SELECT s FROM Signos s WHERE s.id = :id")
+    , @NamedQuery(name = "Signos.findByNombre", query = "SELECT s FROM Signos s WHERE s.nombre = :nombre")
+    , @NamedQuery(name = "Signos.findByDescripcion", query = "SELECT s FROM Signos s WHERE s.descripcion = :descripcion")})
+public class Signos implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    private Integer id;
+    private Long id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
@@ -52,32 +51,26 @@ public class CentroMedico implements Serializable {
     @Size(max = 500)
     @Column(name = "descripcion")
     private String descripcion;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 120)
-    @Column(name = "direcci\u00f3n")
-    private String dirección;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "centroMedico")
-    private List<CentroMedicoPersona> centroMedicoPersonaList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "signos")
+    private List<Diagnostico> diagnosticoList;
 
-    public CentroMedico() {
+    public Signos() {
     }
 
-    public CentroMedico(Integer id) {
+    public Signos(Long id) {
         this.id = id;
     }
 
-    public CentroMedico(Integer id, String nombre, String dirección) {
+    public Signos(Long id, String nombre) {
         this.id = id;
         this.nombre = nombre;
-        this.dirección = dirección;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -97,21 +90,13 @@ public class CentroMedico implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public String getDirección() {
-        return dirección;
-    }
-
-    public void setDirección(String dirección) {
-        this.dirección = dirección;
-    }
-
     @XmlTransient
-    public List<CentroMedicoPersona> getCentroMedicoPersonaList() {
-        return centroMedicoPersonaList;
+    public List<Diagnostico> getDiagnosticoList() {
+        return diagnosticoList;
     }
 
-    public void setCentroMedicoPersonaList(List<CentroMedicoPersona> centroMedicoPersonaList) {
-        this.centroMedicoPersonaList = centroMedicoPersonaList;
+    public void setDiagnosticoList(List<Diagnostico> diagnosticoList) {
+        this.diagnosticoList = diagnosticoList;
     }
 
     @Override
@@ -124,10 +109,10 @@ public class CentroMedico implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof CentroMedico)) {
+        if (!(object instanceof Signos)) {
             return false;
         }
-        CentroMedico other = (CentroMedico) object;
+        Signos other = (Signos) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -136,7 +121,7 @@ public class CentroMedico implements Serializable {
 
     @Override
     public String toString() {
-        return "co.edu.uniminuto.model.entities.CentroMedico[ id=" + id + " ]";
+        return "co.edu.uniminuto.model.entities.Signos[ id=" + id + " ]";
     }
     
 }
