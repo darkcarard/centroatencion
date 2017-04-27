@@ -121,7 +121,7 @@ public class Signos implements Serializable {
 
     @Override
     public String toString() {
-        return "co.edu.uniminuto.model.entities.Signos[ id=" + id + " ]";
+        return "co.edu.uniminuto.model.entity.Signos[ id=" + id + " ]";
     }
     
 }

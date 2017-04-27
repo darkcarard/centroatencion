@@ -3,15 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package co.edu.uniminuto.model.ejb;
+package co.edu.uniminuto.view.delegate;
 
-import javax.ejb.Local;
+
+import javax.ejb.EJB;
 
 /**
  *
  * @author cardila
  */
-@Local
-public interface SeguridadSessionBeanLocal {
+public class SeguridadDelegate {
     
+      
 }

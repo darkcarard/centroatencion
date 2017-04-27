@@ -121,7 +121,7 @@ public class TipoIdentificacion implements Serializable {
 
     @Override
     public String toString() {
-        return "co.edu.uniminuto.model.entities.TipoIdentificacion[ id=" + id + " ]";
+        return "co.edu.uniminuto.model.entity.TipoIdentificacion[ id=" + id + " ]";
     }
     
 }

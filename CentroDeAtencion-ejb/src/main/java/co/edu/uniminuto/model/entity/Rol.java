@@ -14,6 +14,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -51,10 +52,10 @@ public class Rol implements Serializable {
     @Size(max = 100)
     @Column(name = "descripcion")
     private String descripcion;
+    @ManyToMany(mappedBy = "rolList")
+    private List<Menu> menuList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "rol")
-    private List<MenuRol> menuRolList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "rol")
-    private List<Usuario> usuarioList;
+    private List<Persona> personaList;
 
     public Rol() {
     }
@@ -93,21 +94,21 @@ public class Rol implements Serializable {
     }
 
     @XmlTransient
-    public List<MenuRol> getMenuRolList() {
-        return menuRolList;
+    public List<Menu> getMenuList() {
+        return menuList;
     }
 
-    public void setMenuRolList(List<MenuRol> menuRolList) {
-        this.menuRolList = menuRolList;
+    public void setMenuList(List<Menu> menuList) {
+        this.menuList = menuList;
     }
 
     @XmlTransient
-    public List<Usuario> getUsuarioList() {
-        return usuarioList;
+    public List<Persona> getPersonaList() {
+        return personaList;
     }
 
-    public void setUsuarioList(List<Usuario> usuarioList) {
-        this.usuarioList = usuarioList;
+    public void setPersonaList(List<Persona> personaList) {
+        this.personaList = personaList;
     }
 
     @Override
@@ -132,7 +133,7 @@ public class Rol implements Serializable {
 
     @Override
     public String toString() {
-        return "co.edu.uniminuto.model.entities.Rol[ id=" + id + " ]";
+        return "co.edu.uniminuto.model.entity.Rol[ id=" + id + " ]";
     }
     
 }

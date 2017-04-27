@@ -8,15 +8,16 @@ package co.edu.uniminuto.model.entity;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -51,8 +52,11 @@ public class Medicamento implements Serializable {
     @Size(max = 500)
     @Column(name = "descripcion")
     private String descripcion;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "medicamento")
-    private List<MedicamentoPersona> medicamentoPersonaList;
+    @JoinTable(name = "medicamento_persona", joinColumns = {
+        @JoinColumn(name = "medicamento", referencedColumnName = "id")}, inverseJoinColumns = {
+        @JoinColumn(name = "persona", referencedColumnName = "identificacion")})
+    @ManyToMany
+    private List<Persona> personaList;
 
     public Medicamento() {
     }
@@ -91,12 +95,12 @@ public class Medicamento implements Serializable {
     }
 
     @XmlTransient
-    public List<MedicamentoPersona> getMedicamentoPersonaList() {
-        return medicamentoPersonaList;
+    public List<Persona> getPersonaList() {
+        return personaList;
     }
 
-    public void setMedicamentoPersonaList(List<MedicamentoPersona> medicamentoPersonaList) {
-        this.medicamentoPersonaList = medicamentoPersonaList;
+    public void setPersonaList(List<Persona> personaList) {
+        this.personaList = personaList;
     }
 
     @Override
@@ -121,7 +125,7 @@ public class Medicamento implements Serializable {
 
     @Override
     public String toString() {
-        return "co.edu.uniminuto.model.entities.Medicamento[ id=" + id + " ]";
+        return "co.edu.uniminuto.model.entity.Medicamento[ id=" + id + " ]";
     }
     
 }

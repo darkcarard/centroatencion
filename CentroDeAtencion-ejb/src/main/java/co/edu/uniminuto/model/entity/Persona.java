@@ -11,10 +11,9 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -34,8 +33,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Persona.findAll", query = "SELECT p FROM Persona p")
-    , @NamedQuery(name = "Persona.findById", query = "SELECT p FROM Persona p WHERE p.id = :id")
     , @NamedQuery(name = "Persona.findByIdentificacion", query = "SELECT p FROM Persona p WHERE p.identificacion = :identificacion")
+    , @NamedQuery(name = "Persona.findByClave", query = "SELECT p FROM Persona p WHERE p.clave = :clave")
     , @NamedQuery(name = "Persona.findByNombre", query = "SELECT p FROM Persona p WHERE p.nombre = :nombre")
     , @NamedQuery(name = "Persona.findByCorreoElectronico", query = "SELECT p FROM Persona p WHERE p.correoElectronico = :correoElectronico")
     , @NamedQuery(name = "Persona.findByTelefonoFijo", query = "SELECT p FROM Persona p WHERE p.telefonoFijo = :telefonoFijo")
@@ -45,15 +44,16 @@ public class Persona implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
-    private Integer id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 45)
     @Column(name = "identificacion")
     private String identificacion;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 200)
+    @Column(name = "clave")
+    private String clave;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 200)
@@ -75,46 +75,39 @@ public class Persona implements Serializable {
     @Size(min = 1, max = 100)
     @Column(name = "direccion")
     private String direccion;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "persona")
-    private List<MedicamentoPersona> medicamentoPersonaList;
+    @ManyToMany(mappedBy = "personaList")
+    private List<Medicamento> medicamentoList;
+    @ManyToMany(mappedBy = "personaList")
+    private List<Enfermedad> enfermedadList;
+    @ManyToMany(mappedBy = "personaList")
+    private List<CentroMedico> centroMedicoList;
+    @JoinColumn(name = "rol", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Rol rol;
     @JoinColumn(name = "tipo_identificacion", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private TipoIdentificacion tipoIdentificacion;
     @JoinColumn(name = "tipo_persona", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private TipoPersona tipoPersona;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "persona")
-    private List<EnfermedadPersona> enfermedadPersonaList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "persona")
-    private List<CentroMedicoPersona> centroMedicoPersonaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "medico")
     private List<Diagnostico> diagnosticoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "paciente")
     private List<Diagnostico> diagnosticoList1;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "persona")
-    private List<Usuario> usuarioList;
 
     public Persona() {
     }
 
-    public Persona(Integer id) {
-        this.id = id;
+    public Persona(String identificacion) {
+        this.identificacion = identificacion;
     }
 
-    public Persona(Integer id, String identificacion, String nombre, String telefonoCelular, String direccion) {
-        this.id = id;
+    public Persona(String identificacion, String clave, String nombre, String telefonoCelular, String direccion) {
         this.identificacion = identificacion;
+        this.clave = clave;
         this.nombre = nombre;
         this.telefonoCelular = telefonoCelular;
         this.direccion = direccion;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getIdentificacion() {
@@ -123,6 +116,14 @@ public class Persona implements Serializable {
 
     public void setIdentificacion(String identificacion) {
         this.identificacion = identificacion;
+    }
+
+    public String getClave() {
+        return clave;
+    }
+
+    public void setClave(String clave) {
+        this.clave = clave;
     }
 
     public String getNombre() {
@@ -166,12 +167,38 @@ public class Persona implements Serializable {
     }
 
     @XmlTransient
-    public List<MedicamentoPersona> getMedicamentoPersonaList() {
-        return medicamentoPersonaList;
+    public List<Medicamento> getMedicamentoList() {
+        return medicamentoList;
     }
 
-    public void setMedicamentoPersonaList(List<MedicamentoPersona> medicamentoPersonaList) {
-        this.medicamentoPersonaList = medicamentoPersonaList;
+    public void setMedicamentoList(List<Medicamento> medicamentoList) {
+        this.medicamentoList = medicamentoList;
+    }
+
+    @XmlTransient
+    public List<Enfermedad> getEnfermedadList() {
+        return enfermedadList;
+    }
+
+    public void setEnfermedadList(List<Enfermedad> enfermedadList) {
+        this.enfermedadList = enfermedadList;
+    }
+
+    @XmlTransient
+    public List<CentroMedico> getCentroMedicoList() {
+        return centroMedicoList;
+    }
+
+    public void setCentroMedicoList(List<CentroMedico> centroMedicoList) {
+        this.centroMedicoList = centroMedicoList;
+    }
+
+    public Rol getRol() {
+        return rol;
+    }
+
+    public void setRol(Rol rol) {
+        this.rol = rol;
     }
 
     public TipoIdentificacion getTipoIdentificacion() {
@@ -188,24 +215,6 @@ public class Persona implements Serializable {
 
     public void setTipoPersona(TipoPersona tipoPersona) {
         this.tipoPersona = tipoPersona;
-    }
-
-    @XmlTransient
-    public List<EnfermedadPersona> getEnfermedadPersonaList() {
-        return enfermedadPersonaList;
-    }
-
-    public void setEnfermedadPersonaList(List<EnfermedadPersona> enfermedadPersonaList) {
-        this.enfermedadPersonaList = enfermedadPersonaList;
-    }
-
-    @XmlTransient
-    public List<CentroMedicoPersona> getCentroMedicoPersonaList() {
-        return centroMedicoPersonaList;
-    }
-
-    public void setCentroMedicoPersonaList(List<CentroMedicoPersona> centroMedicoPersonaList) {
-        this.centroMedicoPersonaList = centroMedicoPersonaList;
     }
 
     @XmlTransient
@@ -226,19 +235,10 @@ public class Persona implements Serializable {
         this.diagnosticoList1 = diagnosticoList1;
     }
 
-    @XmlTransient
-    public List<Usuario> getUsuarioList() {
-        return usuarioList;
-    }
-
-    public void setUsuarioList(List<Usuario> usuarioList) {
-        this.usuarioList = usuarioList;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (identificacion != null ? identificacion.hashCode() : 0);
         return hash;
     }
 
@@ -249,7 +249,7 @@ public class Persona implements Serializable {
             return false;
         }
         Persona other = (Persona) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.identificacion == null && other.identificacion != null) || (this.identificacion != null && !this.identificacion.equals(other.identificacion))) {
             return false;
         }
         return true;
@@ -257,7 +257,7 @@ public class Persona implements Serializable {
 
     @Override
     public String toString() {
-        return "co.edu.uniminuto.model.entities.Persona[ id=" + id + " ]";
+        return "co.edu.uniminuto.model.entity.Persona[ identificacion=" + identificacion + " ]";
     }
     
 }

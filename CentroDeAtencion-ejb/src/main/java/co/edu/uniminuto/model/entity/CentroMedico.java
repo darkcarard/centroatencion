@@ -8,15 +8,16 @@ package co.edu.uniminuto.model.entity;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -57,8 +58,11 @@ public class CentroMedico implements Serializable {
     @Size(min = 1, max = 120)
     @Column(name = "direcci\u00f3n")
     private String dirección;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "centroMedico")
-    private List<CentroMedicoPersona> centroMedicoPersonaList;
+    @JoinTable(name = "centro_medico_persona", joinColumns = {
+        @JoinColumn(name = "centro_medico", referencedColumnName = "id")}, inverseJoinColumns = {
+        @JoinColumn(name = "persona", referencedColumnName = "identificacion")})
+    @ManyToMany
+    private List<Persona> personaList;
 
     public CentroMedico() {
     }
@@ -106,12 +110,12 @@ public class CentroMedico implements Serializable {
     }
 
     @XmlTransient
-    public List<CentroMedicoPersona> getCentroMedicoPersonaList() {
-        return centroMedicoPersonaList;
+    public List<Persona> getPersonaList() {
+        return personaList;
     }
 
-    public void setCentroMedicoPersonaList(List<CentroMedicoPersona> centroMedicoPersonaList) {
-        this.centroMedicoPersonaList = centroMedicoPersonaList;
+    public void setPersonaList(List<Persona> personaList) {
+        this.personaList = personaList;
     }
 
     @Override
@@ -136,7 +140,7 @@ public class CentroMedico implements Serializable {
 
     @Override
     public String toString() {
-        return "co.edu.uniminuto.model.entities.CentroMedico[ id=" + id + " ]";
+        return "co.edu.uniminuto.model.entity.CentroMedico[ id=" + id + " ]";
     }
     
 }

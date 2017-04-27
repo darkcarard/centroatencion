@@ -1,0 +1,13 @@
+.ui-widget {
+    font-size: 90%;
+}
+.ui-widget .ui-widget {
+    font-size: 100%;
+}
+.ui-layout-north {
+    height: 50px !important;
+}
+
+/*.ui-layout-unit-content {
+    background-image:url("#{resource['imagenes:fondo.jpeg']}"); 
+}*/

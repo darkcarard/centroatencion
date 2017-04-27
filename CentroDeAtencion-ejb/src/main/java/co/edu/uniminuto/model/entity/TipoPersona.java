@@ -121,7 +121,7 @@ public class TipoPersona implements Serializable {
 
     @Override
     public String toString() {
-        return "co.edu.uniminuto.model.entities.TipoPersona[ id=" + id + " ]";
+        return "co.edu.uniminuto.model.entity.TipoPersona[ id=" + id + " ]";
     }
     
 }

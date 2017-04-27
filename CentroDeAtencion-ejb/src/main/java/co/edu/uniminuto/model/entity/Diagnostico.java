@@ -45,10 +45,10 @@ public class Diagnostico implements Serializable {
     @Size(min = 1, max = 500)
     @Column(name = "descripcion")
     private String descripcion;
-    @JoinColumn(name = "medico", referencedColumnName = "id")
+    @JoinColumn(name = "medico", referencedColumnName = "identificacion")
     @ManyToOne(optional = false)
     private Persona medico;
-    @JoinColumn(name = "paciente", referencedColumnName = "id")
+    @JoinColumn(name = "paciente", referencedColumnName = "identificacion")
     @ManyToOne(optional = false)
     private Persona paciente;
     @JoinColumn(name = "signos", referencedColumnName = "id")
@@ -129,7 +129,7 @@ public class Diagnostico implements Serializable {
 
     @Override
     public String toString() {
-        return "co.edu.uniminuto.model.entities.Diagnostico[ id=" + id + " ]";
+        return "co.edu.uniminuto.model.entity.Diagnostico[ id=" + id + " ]";
     }
     
 }

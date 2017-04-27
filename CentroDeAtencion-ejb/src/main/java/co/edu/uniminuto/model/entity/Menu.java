@@ -8,15 +8,16 @@ package co.edu.uniminuto.model.entity;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -60,8 +61,11 @@ public class Menu implements Serializable {
     @Size(max = 100)
     @Column(name = "descripcion")
     private String descripcion;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "menu")
-    private List<MenuRol> menuRolList;
+    @JoinTable(name = "menu_rol", joinColumns = {
+        @JoinColumn(name = "menu", referencedColumnName = "id")}, inverseJoinColumns = {
+        @JoinColumn(name = "rol", referencedColumnName = "id")})
+    @ManyToMany
+    private List<Rol> rolList;
 
     public Menu() {
     }
@@ -117,12 +121,12 @@ public class Menu implements Serializable {
     }
 
     @XmlTransient
-    public List<MenuRol> getMenuRolList() {
-        return menuRolList;
+    public List<Rol> getRolList() {
+        return rolList;
     }
 
-    public void setMenuRolList(List<MenuRol> menuRolList) {
-        this.menuRolList = menuRolList;
+    public void setRolList(List<Rol> rolList) {
+        this.rolList = rolList;
     }
 
     @Override
@@ -147,7 +151,7 @@ public class Menu implements Serializable {
 
     @Override
     public String toString() {
-        return "co.edu.uniminuto.model.entities.Menu[ id=" + id + " ]";
+        return "co.edu.uniminuto.model.entity.Menu[ id=" + id + " ]";
     }
     
 }
