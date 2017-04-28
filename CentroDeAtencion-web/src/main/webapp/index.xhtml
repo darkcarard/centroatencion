@@ -12,11 +12,11 @@
                 <p:panel header="Ingreso" style="width: 360px;" >
                     <h:panelGrid id="panelIngreso" columns="2">
                         <h:outputText value="Usuario" />
-                        <p:inputText id="usuario" value="#{loginBean.usuario}" ></p:inputText>
+                        <p:inputText id="usuario" value="#{loginBean.usuario.identificacion}" ></p:inputText>
                         <p:spacer></p:spacer>
                         <p:message for="usuario" ></p:message>
                         <h:outputText value="Clave" />
-                        <p:password id="clave" value="#{loginBean.clave}"  feedback="false"></p:password>
+                        <p:password id="clave" value="#{loginBean.usuario.clave}"  feedback="false"></p:password>
                         <p:spacer></p:spacer>
                         <p:message for="clave"></p:message>
                         <p:spacer></p:spacer>

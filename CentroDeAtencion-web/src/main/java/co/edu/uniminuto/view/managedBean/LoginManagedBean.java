@@ -5,45 +5,48 @@
  */
 package co.edu.uniminuto.view.managedBean;
 
-import javax.inject.Named;
-import javax.enterprise.context.RequestScoped;
+import co.edu.uniminuto.model.entity.Persona;
+import co.edu.uniminuto.view.delegate.SeguridadDelegate;
+import co.edu.uniminuto.view.util.FacesUtils;
+import javax.annotation.PostConstruct;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 
 /**
  *
  * @author cardila
  */
-@Named(value = "loginBean")
-@RequestScoped
+@ManagedBean(name = "loginBean")
+@ViewScoped
 public class LoginManagedBean {
 
-    private String usuario;
-    private String clave;
+    private Persona usuario;
+    private SeguridadDelegate seguridad;
     
     public LoginManagedBean() {
     }
     
+    @PostConstruct
+    public void init() {
+        usuario = new Persona();
+        System.out.println("POST-CONSTRUCT");
+    }
+    
     public String ingresar(){
-        System.out.println("¡¡Ingresé!!");
-        System.out.println("Usuario: " + usuario);
-        System.out.println("Clave: " + clave);
-        return "";
+        
+       if (seguridad.validarUsuario(usuario)){
+           FacesUtils.registrarSesion(usuario);
+           return "loginOk";
+       }
+       return "loginFailed";
     }
 
-    public String getUsuario() {
+    public Persona getUsuario() {
         return usuario;
     }
 
-    public void setUsuario(String usuario) {
+    public void setUsuario(Persona usuario) {
         this.usuario = usuario;
     }
 
-    public String getClave() {
-        return clave;
-    }
-
-    public void setClave(String clave) {
-        this.clave = clave;
-    }
-    
-    
 }

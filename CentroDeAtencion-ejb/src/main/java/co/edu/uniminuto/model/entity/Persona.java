@@ -235,6 +235,11 @@ public class Persona implements Serializable {
         this.diagnosticoList1 = diagnosticoList1;
     }
 
+    public boolean validarClave(Persona personaValidar){
+        return (personaValidar.getClave().equals(this.clave));
+    }
+    
+    
     @Override
     public int hashCode() {
         int hash = 0;
